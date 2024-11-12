@@ -1,5 +1,6 @@
 package com.insurancesimulator.insurance.model;
 
+import exceptions.OnlyCashOutException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,4 +19,20 @@ import lombok.NoArgsConstructor;
 
 public class LifeInsurance extends Insurance{
     private int policyTermInYears;
+
+    @Override
+    public void setPremiumPayment(double premiumPayment) {
+        super.setPremiumPayment(150);
+    }
+
+    @Override
+    public CashWithdrawResponse withdraw(Double cashValue) {
+        if (cashValue != this.coverageAmount) {
+            throw new OnlyCashOutException("Inaccessible operation for Life Insurance");
+        }
+        else {
+            this.deactivate();
+            return processWithdrawal(cashValue, balance - cashValue);
+        }
+    }
 }

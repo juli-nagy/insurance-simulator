@@ -17,4 +17,19 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class CarInsurance extends Insurance{
     private double carCost;
+
+    @Override
+    public void setPremiumPayment(double premiumPayment) {
+        super.setPremiumPayment(400);
+    }
+
+    @Override
+    public CashWithdrawResponse withdraw(Double cashValue) {
+        double balance = this.getBalance();
+        if (cashValue > balance) {
+            return processWithdrawal(balance, 0.0);
+        } else {
+            return processWithdrawal(cashValue, balance - cashValue);
+        }
+    }
 }
