@@ -2,6 +2,7 @@ package com.insurancesimulator.customer;
 
 import com.insurancesimulator.customer.model.Customer;
 import exceptions.EntityNotFoundException;
+import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class));
 
-        if (name != null && name.length() > 0 && !Objects.equals(customer.getName(), name)) {
+        if (StringUtils.isNotBlank(name) && !Objects.equals(customer.getName(), name)) {
             customer.setName(name);
         }
 

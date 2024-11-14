@@ -49,6 +49,12 @@ public abstract class Insurance implements Activatable {
         this.isActive = false;
     }
 
+    @Override
+    public void activate() {
+        this.isActive = true;
+    }
+
+
     public abstract CashWithdrawResponse withdraw(Double cashValue);
 
     protected CashWithdrawResponse processWithdrawal(double amountWithdrawn, double newBalance) {

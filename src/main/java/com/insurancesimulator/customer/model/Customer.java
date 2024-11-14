@@ -32,6 +32,11 @@ public class Customer implements Activatable {
     }
 
     @Override
+    public void activate() {
+        this.isActive = true;
+    }
+
+    @Override
     public boolean isActive() {
         return this.isActive;
     }
