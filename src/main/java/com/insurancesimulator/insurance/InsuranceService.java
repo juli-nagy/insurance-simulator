@@ -13,13 +13,14 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class InsuranceService {
+
     private final InsuranceRepository insuranceRepository;
 
-    public void addInsurance(Insurance insurance){
+    public void addInsurance(Insurance insurance) {
         insuranceRepository.save(insurance);
     }
 
-    public List<Insurance> getAllInsurances(){
+    public List<Insurance> getAllInsurances() {
         return insuranceRepository.findAll();
     }
 

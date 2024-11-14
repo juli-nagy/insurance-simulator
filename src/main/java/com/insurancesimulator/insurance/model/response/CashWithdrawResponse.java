@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class CashWithdrawResponse {
+
     String message;
 
     public CashWithdrawResponse(BigDecimal cashWithdrawn, BigDecimal balance) {

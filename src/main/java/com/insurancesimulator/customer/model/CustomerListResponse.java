@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class CustomerListResponse {
+
     private String message;
     private int count;
     private List<Customer> customers;

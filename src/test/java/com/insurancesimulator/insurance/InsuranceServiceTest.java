@@ -46,7 +46,8 @@ class InsuranceServiceTest {
             expectedNewBalance
         );
 
-        when(insurance.withdraw(amount)).thenReturn(new CashWithdrawResponse(amount, expectedNewBalance));
+        when(insurance.withdraw(amount)).thenReturn(
+            new CashWithdrawResponse(amount, expectedNewBalance));
 
         CashWithdrawResponse response = insuranceService.withdraw(insuranceId, amount);
 

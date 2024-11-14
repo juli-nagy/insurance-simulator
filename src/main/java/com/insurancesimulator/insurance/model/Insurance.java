@@ -44,7 +44,8 @@ public abstract class Insurance implements Activatable {
     protected BigDecimal premiumPayment;
     protected boolean isActive = true;
 
-    protected Insurance() {}
+    protected Insurance() {
+    }
 
     @Override
     public void deactivate() {
@@ -59,7 +60,8 @@ public abstract class Insurance implements Activatable {
 
     public abstract CashWithdrawResponse withdraw(BigDecimal cashValue);
 
-    protected CashWithdrawResponse processWithdrawal(BigDecimal amountWithdrawn, BigDecimal newBalance) {
+    protected CashWithdrawResponse processWithdrawal(BigDecimal amountWithdrawn,
+        BigDecimal newBalance) {
         this.updateBalance(newBalance);
         if (newBalance.compareTo(BigDecimal.ZERO) == 0) {
             this.deactivate();

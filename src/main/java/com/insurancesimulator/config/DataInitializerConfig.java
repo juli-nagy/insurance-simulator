@@ -18,7 +18,8 @@ import java.util.List;
 public class DataInitializerConfig {
 
     @Bean
-    CommandLineRunner dataInitializer(CustomerRepository customerRepository, InsuranceRepository insuranceRepository) {
+    CommandLineRunner dataInitializer(CustomerRepository customerRepository,
+        InsuranceRepository insuranceRepository) {
         return args -> {
             // Initialize Customer data
             Customer maria = new Customer(

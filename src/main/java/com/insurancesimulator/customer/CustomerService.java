@@ -13,16 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
+
     private final CustomerRepository customerRepository;
-    public List<Customer> getCustomers(){
+
+    public List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
 
-    public void addCustomer(Customer customer){
+    public void addCustomer(Customer customer) {
         customerRepository.save(customer);
     }
 
-    public void deleteCustomer(Long customerId){
+    public void deleteCustomer(Long customerId) {
         boolean exists = customerRepository.existsById(customerId);
         if (!exists) {
             throw new EntityNotFoundException(Customer.class);
@@ -31,7 +33,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void updateCustomer(Long customerId, String name, LocalDate birthDate){
+    public void updateCustomer(Long customerId, String name, LocalDate birthDate) {
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class));
 

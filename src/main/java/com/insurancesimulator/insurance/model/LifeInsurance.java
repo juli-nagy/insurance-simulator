@@ -19,7 +19,8 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "life_insurance")
 @EqualsAndHashCode(callSuper = true)
 
-public class LifeInsurance extends Insurance{
+public class LifeInsurance extends Insurance {
+
     private int policyTermInYears;
 
     @Override

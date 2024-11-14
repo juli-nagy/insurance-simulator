@@ -3,7 +3,7 @@ package com.insurancesimulator.customer;
 import com.insurancesimulator.customer.model.Customer;
 import com.insurancesimulator.customer.model.CustomerListResponse;
 import com.insurancesimulator.customer.model.CustomerUpdateRequest;
-import com.insurancesimulator.utils.models.shared.ApiResponse;
+import com.insurancesimulator.utils.models.shared.InsuranceSimulatorResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,17 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/customer")
 public class CustomerController {
+
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> registerNewCustomer(@RequestBody Customer customer){
+    public ResponseEntity<InsuranceSimulatorResponse> registerNewCustomer(
+        @RequestBody Customer customer) {
         customerService.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(new ApiResponse("Customer entity was created", HttpStatus.CREATED));
+            .body(
+                new InsuranceSimulatorResponse("Customer entity was created", HttpStatus.CREATED));
     }
 
     @GetMapping
-    public ResponseEntity<CustomerListResponse> importCustomers(){
+    public ResponseEntity<CustomerListResponse> importCustomers() {
         List<Customer> foundCustomers = customerService.getCustomers();
         return ResponseEntity.ok(
             new CustomerListResponse(
@@ -40,19 +43,22 @@ public class CustomerController {
     }
 
     @PutMapping(path = "{customerId}")
-    public ResponseEntity<ApiResponse> updateCustomerInfo(@PathVariable("customerId") Long customerId,
-        @RequestBody CustomerUpdateRequest updateRequest){
-        customerService.updateCustomer(customerId, updateRequest.getName(), updateRequest.getBirthDate());
-        return ResponseEntity.ok(new ApiResponse(
+    public ResponseEntity<InsuranceSimulatorResponse> updateCustomerInfo(
+        @PathVariable("customerId") Long customerId,
+        @RequestBody CustomerUpdateRequest updateRequest) {
+        customerService.updateCustomer(customerId, updateRequest.getName(),
+            updateRequest.getBirthDate());
+        return ResponseEntity.ok(new InsuranceSimulatorResponse(
             "Customer entity was updated", HttpStatus.OK)
         );
     }
 
     @DeleteMapping(path = "{customerId}")
-    public ResponseEntity<ApiResponse> deleteCustomer(@PathVariable("customerId") Long customerId){
+    public ResponseEntity<InsuranceSimulatorResponse> deleteCustomer(
+        @PathVariable("customerId") Long customerId) {
         customerService.deleteCustomer(customerId);
         return ResponseEntity.ok(
-            new ApiResponse("Customer entity was deleted", HttpStatus.OK)
+            new InsuranceSimulatorResponse("Customer entity was deleted", HttpStatus.OK)
         );
     }
 
