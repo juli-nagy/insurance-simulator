@@ -1,5 +1,6 @@
 package com.insurancesimulator.insurance;
 
+import com.insurancesimulator.exceptions.OnlyCashOutException;
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import com.insurancesimulator.insurance.model.Insurance;
 import com.insurancesimulator.exceptions.EntityNotFoundException;
@@ -37,11 +38,16 @@ public class InsuranceService {
 
     @Transactional
     public CashWithdrawResponse withdraw(Long insuranceId, BigDecimal amount) {
+        try{
         Insurance insurance = insuranceRepository.findById(insuranceId)
             .orElseThrow(() -> new EntityNotFoundException(Insurance.class));
 
         CashWithdrawResponse response = insurance.withdraw(amount);
         insuranceRepository.save(insurance);
         return response;
+        }
+        catch (OnlyCashOutException e){
+            return new CashWithdrawResponse(e.getMessage());
+        }
     }
 }

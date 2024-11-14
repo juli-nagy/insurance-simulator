@@ -38,7 +38,7 @@ Antworten zu liefern.
 ## Endpunkte
 ### Kundenverwaltung
 **Kunden erstellen:** ```POST /api/customer``` <br />
-**Alle Kunden abrufen:** ```GET /api/custom``` <br />
+**Alle Kunden abrufen:** ```GET /api/customer``` <br />
 **Kunden aktualisieren:** ```PUT /api/customer/{customerId}``` <br />
 **Kunden löschen:** ```DELETE /api/customer/{customerId}``` <br />
 
@@ -50,12 +50,11 @@ Antworten zu liefern.
 
 
 ### Abhebungen
-- **Abhebung durchführen:** ```PUT /api/insurance/withdraw```
+- **Abhebung durchführen:** ```PUT /api/insurance/{insuranseId}/withdraw```
 - Request Body:
 
 ```json
 {
-"insuranceId": 1,
 "cashValue": 50.0
 }
 ```

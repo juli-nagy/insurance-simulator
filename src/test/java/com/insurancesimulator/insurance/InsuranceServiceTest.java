@@ -37,11 +37,11 @@ class InsuranceServiceTest {
         BigDecimal initialBalance = BigDecimal.valueOf(100);
         BigDecimal expectedNewBalance = initialBalance.subtract(amount);
 
-        Insurance insurance = mock(Insurance.class); // Mocking the Insurance object
+        Insurance insurance = mock(Insurance.class);
         when(insuranceRepository.findById(insuranceId)).thenReturn(Optional.of(insurance));
 
         String expectedMessage = String.format(
-            "Cash value of %f is withdrawn successfully. Your balance is %f",
+            "Cash value of %.3f is withdrawn successfully. Your balance is %.3f",
             amount,
             expectedNewBalance
         );
