@@ -19,6 +19,7 @@ import jakarta.persistence.Id;
 @Entity
 @Table(name = "customer")
 public class Customer implements Activatable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;

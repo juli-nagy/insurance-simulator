@@ -1,5 +1,14 @@
 # Versicherungs-Simulator API
-Die Versicherungs-Simulator API ist ein RESTful-Dienst, der für das Verwalten von Versicherungspolicen, Kunden und zugehörigen Transaktionen konzipiert ist. Diese API ermöglicht es, Versicherungspolicen zu erstellen, zu aktualisieren, abzurufen und zu löschen sowie Bargeldabhebungen und die Kundenverwaltung in einer strukturierten Weise zu handhaben. Die API verwendet strukturierte Antwortobjekte wie ApiResponse und CustomerListResponse, um konsistente und informative Antworten zu liefern.
+Die Versicherungs-Simulator API ist ein RESTful-Service, 
+der für das Verwalten von Versicherungspolicen, Kunden und 
+zugehörigen Transaktionen konzipiert ist.
+Diese API ermöglicht es, Versicherungspolicen zu erstellen, 
+zu aktualisieren, abzurufen und zu löschen sowie 
+Bargeldabhebungen und die Kundenverwaltung in einer 
+strukturierten Weise zu handhaben. Die API verwendet 
+strukturierte Antwortobjekte wie ApiResponse und 
+CustomerListResponse, um konsistente und informative 
+Antworten zu liefern.
 
 ## Inhaltsverzeichnis
 
@@ -28,25 +37,24 @@ Die Versicherungs-Simulator API ist ein RESTful-Dienst, der für das Verwalten v
 
 ## Endpunkte
 ### Kundenverwaltung
-**Kunden erstellen:** ```POST /api/customers``` <br />
-**Alle Kunden abrufen:** ```GET /api/customers``` <br />
-**Kunden aktualisieren:** ```PUT /api/customers/{customerId}``` <br />
-**Kunden löschen:** ```DELETE /api/customers/{customerId}``` <br />
+**Kunden erstellen:** ```POST /api/customer``` <br />
+**Alle Kunden abrufen:** ```GET /api/customer``` <br />
+**Kunden aktualisieren:** ```PUT /api/customer/{customerId}``` <br />
+**Kunden löschen:** ```DELETE /api/customer/{customerId}``` <br />
 
 ### Versicherungsverwaltung
-**Versicherung registrieren:** ```POST /api/insurance``` 
-**Alle Verträge abrufen:** ```GET /api/insurance```
-**Kundenverträge abrufen:** ```GET /api/insurance/{customerId}```
+**Versicherung registrieren:** ```POST /api/insurance``` <br />
+**Alle Verträge abrufen:** ```GET /api/insurance```<br />
+**Kundenverträge abrufen:** ```GET /api/insurance/{customerId}``` <br />
 **Kundenvertrag löschen:** ```DELETE /api/insurance/{insuranseId}```
 
 
 ### Abhebungen
-- **Abhebung durchführen:** ```PUT /api/insurance/withdraw```
+- **Abhebung durchführen:** ```PUT /api/insurance/{insuranseId}/withdraw```
 - Request Body:
 
 ```json
 {
-"insuranceId": 1,
 "cashValue": 50.0
 }
 ```

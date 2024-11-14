@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class InsuranceListResponse {
+
     private String message;
     private int count;
     private List<Insurance> insurances;

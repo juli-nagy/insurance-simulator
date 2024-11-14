@@ -17,7 +17,8 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "car_insurance")
 @EqualsAndHashCode(callSuper = true)
-public class CarInsurance extends Insurance{
+public class CarInsurance extends Insurance {
+
     private BigDecimal carCost;
 
     @Override

@@ -5,7 +5,7 @@ import com.insurancesimulator.insurance.model.request.CashWithdrawRequest;
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import com.insurancesimulator.insurance.model.Insurance;
 import com.insurancesimulator.insurance.model.response.InsuranceListResponse;
-import com.insurancesimulator.utils.models.shared.ApiResponse;
+import com.insurancesimulator.utils.models.shared.InsuranceSimulatorResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,17 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/insurance")
 public class InsuranceController {
+
     private final InsuranceService insuranceService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> registerNewInsurance(@RequestBody Insurance insurance){
+    public ResponseEntity<InsuranceSimulatorResponse> registerNewInsurance(
+        @RequestBody Insurance insurance) {
         insuranceService.addInsurance(insurance);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(new ApiResponse("Insurance entity was created", HttpStatus.CREATED));
+            .body(
+                new InsuranceSimulatorResponse("Insurance entity was created", HttpStatus.CREATED));
     }
 
     @GetMapping
-    public ResponseEntity<InsuranceListResponse> getAllInsurances(){
+    public ResponseEntity<InsuranceListResponse> getAllInsurances() {
         List<Insurance> foundInsurance = insuranceService.getAllInsurances();
         return foundInsurance.isEmpty() ? new ResponseEntity<>(NOT_FOUND)
             : ResponseEntity.ok(new InsuranceListResponse(
@@ -45,7 +48,7 @@ public class InsuranceController {
 
     @GetMapping("/{customerId}")
     public ResponseEntity<InsuranceListResponse> getInsurancesByCustomerId(
-        @PathVariable Long customerId){
+        @PathVariable Long customerId) {
         List<Insurance> foundInsurance = insuranceService.getAllInsurancesByCustomerId(customerId);
         return foundInsurance.isEmpty()
             ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
@@ -56,19 +59,22 @@ public class InsuranceController {
             );
     }
 
-    @PutMapping("/withdraw")
-    public ResponseEntity<CashWithdrawResponse> withdrawCash(@RequestBody CashWithdrawRequest request){
-        CashWithdrawResponse cashWithdraw =
-            insuranceService.withdraw(request.getInsuranceId(), request.getCashValue());
-        return ResponseEntity
-            .ok(cashWithdraw);
+    @PutMapping("{insuranceId}/withdraw")
+    public ResponseEntity<CashWithdrawResponse> withdrawCash(
+        @PathVariable("insuranceId") Long insuranceId,
+        @RequestBody CashWithdrawRequest request) {
+        CashWithdrawResponse cashWithdraw = insuranceService.withdraw(insuranceId,
+            request.getCashValue());
+
+        return ResponseEntity.ok(cashWithdraw);
     }
 
     @DeleteMapping(path = "{insuranceId}")
-    public ResponseEntity<ApiResponse> deleteInsurance(@PathVariable("insuranceId") Long insuranceId){
+    public ResponseEntity<InsuranceSimulatorResponse> deleteInsurance(
+        @PathVariable("insuranceId") Long insuranceId) {
         insuranceService.deleteInsurance(insuranceId);
         return ResponseEntity.ok(
-            new ApiResponse("Insurance entity was deleted", HttpStatus.OK)
+            new InsuranceSimulatorResponse("Insurance entity was deleted", HttpStatus.OK)
         );
     }
 

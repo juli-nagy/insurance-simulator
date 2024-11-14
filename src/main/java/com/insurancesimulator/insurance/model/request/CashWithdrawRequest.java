@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class CashWithdrawRequest {
-    private Long insuranceId;
+
     private BigDecimal cashValue;
 }

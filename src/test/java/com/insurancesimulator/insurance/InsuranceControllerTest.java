@@ -42,7 +42,6 @@ class InsuranceControllerTest {
         BigDecimal newBalance = BigDecimal.valueOf(150.0);
 
         CashWithdrawRequest request = new CashWithdrawRequest();
-        request.setInsuranceId(insuranceId);
         request.setCashValue(cashValue);
 
         CashWithdrawResponse mockResponse = new CashWithdrawResponse(cashValue, newBalance);
@@ -52,7 +51,7 @@ class InsuranceControllerTest {
         String requestJson = objectMapper.writeValueAsString(request);
         String expectedJsonResponse = objectMapper.writeValueAsString(mockResponse);
 
-        mockMvc.perform(put("/api/insurance/withdraw")
+        mockMvc.perform(put("/api/insurance/{insurance}/withdraw", insuranceId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
             .andExpect(status().isOk())

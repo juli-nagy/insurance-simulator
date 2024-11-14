@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
-public class ApiResponse {
+public class InsuranceSimulatorResponse {
     private String message;
     private HttpStatus status;
 }
