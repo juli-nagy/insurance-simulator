@@ -1,6 +1,6 @@
 package com.insurancesimulator.insurance;
 
-import com.insurancesimulator.insurance.model.CashWithdrawResponse;
+import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import com.insurancesimulator.insurance.model.Insurance;
 import exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;

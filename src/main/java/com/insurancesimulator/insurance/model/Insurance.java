@@ -3,6 +3,7 @@ package com.insurancesimulator.insurance.model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.insurancesimulator.config.Activatable;
+import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

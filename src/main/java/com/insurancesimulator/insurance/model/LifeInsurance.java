@@ -1,5 +1,6 @@
 package com.insurancesimulator.insurance.model;
 
+import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import exceptions.OnlyCashOutException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
