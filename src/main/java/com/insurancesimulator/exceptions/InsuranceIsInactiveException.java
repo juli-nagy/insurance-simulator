@@ -1,4 +1,4 @@
-package exceptions;
+package com.insurancesimulator.exceptions;
 
 public class InsuranceIsInactiveException extends RuntimeException {
     public InsuranceIsInactiveException() {

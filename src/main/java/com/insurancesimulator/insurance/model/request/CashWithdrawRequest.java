@@ -1,9 +1,10 @@
 package com.insurancesimulator.insurance.model.request;
 
+import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
 public class CashWithdrawRequest {
     private Long insuranceId;
-    private Double cashValue;
+    private BigDecimal cashValue;
 }

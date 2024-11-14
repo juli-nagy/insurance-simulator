@@ -1,4 +1,4 @@
-package exceptions;
+package com.insurancesimulator.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(Class entity) {

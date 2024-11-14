@@ -71,4 +71,9 @@ public class InsuranceController {
             new ApiResponse("Insurance entity was deleted", HttpStatus.OK)
         );
     }
+
+    @GetMapping("/api/test/exception")
+    public String triggerException() {
+        throw new RuntimeException("Test exception"); // Should be caught by handleGenericException
+    }
 }

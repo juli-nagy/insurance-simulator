@@ -12,6 +12,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,11 +37,11 @@ public abstract class Insurance implements Activatable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long insuranceId;
-    protected double coverageAmount;
-    protected double balance;
+    protected BigDecimal coverageAmount;
+    protected BigDecimal balance;
     @JoinColumn(name = "customer_id")
     protected Long customerId;
-    protected double premiumPayment;
+    protected BigDecimal premiumPayment;
     protected boolean isActive = true;
 
     protected Insurance() {}
@@ -56,17 +57,17 @@ public abstract class Insurance implements Activatable {
     }
 
 
-    public abstract CashWithdrawResponse withdraw(Double cashValue);
+    public abstract CashWithdrawResponse withdraw(BigDecimal cashValue);
 
-    protected CashWithdrawResponse processWithdrawal(double amountWithdrawn, double newBalance) {
+    protected CashWithdrawResponse processWithdrawal(BigDecimal amountWithdrawn, BigDecimal newBalance) {
         this.updateBalance(newBalance);
-        if (newBalance == 0.0) {
+        if (newBalance.compareTo(BigDecimal.ZERO) == 0) {
             this.deactivate();
         }
         return new CashWithdrawResponse(amountWithdrawn, newBalance);
     }
 
-    public void updateBalance(Double balance) {
+    public void updateBalance(BigDecimal balance) {
         if (balance != null && !Objects.equals(this.balance, balance)) {
             this.balance = balance;
         }

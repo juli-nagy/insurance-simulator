@@ -1,9 +1,13 @@
 package com.insurancesimulator.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurancesimulator.utils.models.shared.ErrorResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +53,25 @@ public class SecurityConfiguration {
             .httpBasic(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .logout(LogoutConfigurer::permitAll);
+
+            http.exceptionHandling(exceptionHandling ->
+                exceptionHandling.accessDeniedHandler(customAccessDeniedHandler())
+            );
+
         return http.build();
+    }
+
+    private AccessDeniedHandler customAccessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            response.setContentType("application/json");
+            ErrorResponse errorResponse = new ErrorResponse(
+                "Access denied: You do not have permission to access this resource.",
+                HttpStatus.FORBIDDEN.value()
+            );
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(errorResponse));
+        };
     }
 
     @Bean

@@ -7,7 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.insurancesimulator.config.SecurityConfiguration;
+import com.insurancesimulator.insurance.model.request.CashWithdrawRequest;
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Import(SecurityConfiguration.class)
 @WebMvcTest(InsuranceController.class)
@@ -27,34 +30,35 @@ class InsuranceControllerTest {
     @MockBean
     private InsuranceService insuranceService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    void shouldWithdrawCashSuccessfully() throws Exception {
+    void withdrawCashSuccessfullyTest() throws Exception {
+        // Given
         Long insuranceId = 1L;
-        Double cashValue = 50.0;
-        Double newBalance = 150.0;
+        BigDecimal cashValue = BigDecimal.valueOf(50.0);
+        BigDecimal newBalance = BigDecimal.valueOf(150.0);
 
-        String expectedMessage = String.format(
-            "Cash value of %f is withdrawn successfully. Your balance is %f",
-            cashValue, newBalance
-        );
+        CashWithdrawRequest request = new CashWithdrawRequest();
+        request.setInsuranceId(insuranceId);
+        request.setCashValue(cashValue);
 
         CashWithdrawResponse mockResponse = new CashWithdrawResponse(cashValue, newBalance);
+
         when(insuranceService.withdraw(insuranceId, cashValue)).thenReturn(mockResponse);
 
-        String requestJson = String.format(
-            "{\"insuranceId\": %d, \"cashValue\": %.2f}",
-            insuranceId, cashValue
-        );
+        String requestJson = objectMapper.writeValueAsString(request);
+        String expectedJsonResponse = objectMapper.writeValueAsString(mockResponse);
 
         mockMvc.perform(put("/api/insurance/withdraw")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
             .andExpect(status().isOk())
-            .andExpect(content().json(
-                String.format("{\"message\":\"%s\"}", expectedMessage)
-            ));
+            .andExpect(content().json(expectedJsonResponse));
 
         verify(insuranceService, times(1)).withdraw(insuranceId, cashValue);
     }
+
 }

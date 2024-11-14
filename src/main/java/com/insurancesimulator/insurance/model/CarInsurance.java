@@ -3,6 +3,7 @@ package com.insurancesimulator.insurance.model;
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,20 +18,20 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "car_insurance")
 @EqualsAndHashCode(callSuper = true)
 public class CarInsurance extends Insurance{
-    private double carCost;
+    private BigDecimal carCost;
 
     @Override
-    public void setPremiumPayment(double premiumPayment) {
-        super.setPremiumPayment(400);
+    public void setPremiumPayment(BigDecimal premiumPayment) {
+        super.setPremiumPayment(BigDecimal.valueOf(400));
     }
 
     @Override
-    public CashWithdrawResponse withdraw(Double cashValue) {
-        double balance = this.getBalance();
-        if (cashValue > balance) {
-            return processWithdrawal(balance, 0.0);
+    public CashWithdrawResponse withdraw(BigDecimal cashValue) {
+        BigDecimal balance = this.getBalance();
+        if (cashValue.compareTo(balance) > 0) {
+            return processWithdrawal(balance, BigDecimal.ZERO);
         } else {
-            return processWithdrawal(cashValue, balance - cashValue);
+            return processWithdrawal(cashValue, balance.subtract(cashValue));
         }
     }
 }

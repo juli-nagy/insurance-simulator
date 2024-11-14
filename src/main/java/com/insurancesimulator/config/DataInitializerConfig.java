@@ -5,6 +5,7 @@ import com.insurancesimulator.customer.model.Customer;
 import com.insurancesimulator.insurance.InsuranceRepository;
 import com.insurancesimulator.insurance.model.CarInsurance;
 import com.insurancesimulator.insurance.model.LifeInsurance;
+import java.math.BigDecimal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,20 +42,20 @@ public class DataInitializerConfig {
 
             // Initialize Insurance data
             LifeInsurance lifeInsurance = LifeInsurance.builder()
-                .coverageAmount(100000.0)
-                .balance(100000.0)
+                .coverageAmount(BigDecimal.valueOf(100000))
+                .balance(BigDecimal.valueOf(100000))
                 .customerId(annaId)
-                .premiumPayment(150.0)
+                .premiumPayment(BigDecimal.valueOf(150))
                 .policyTermInYears(20)
                 .isActive(true)
                 .build();
 
             CarInsurance carInsurance = CarInsurance.builder()
-                .coverageAmount(20000.0)
-                .balance(1500.75)
+                .coverageAmount(BigDecimal.valueOf(20000))
+                .balance(BigDecimal.valueOf(1500.75))
                 .customerId(mariaId)
-                .premiumPayment(400.0)
-                .carCost(60000)
+                .premiumPayment(BigDecimal.valueOf(400.0))
+                .carCost(BigDecimal.valueOf(60000))
                 .isActive(true)
                 .build();
 

@@ -2,8 +2,9 @@ package com.insurancesimulator.insurance;
 
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import com.insurancesimulator.insurance.model.Insurance;
-import exceptions.EntityNotFoundException;
+import com.insurancesimulator.exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,14 @@ public class InsuranceService {
     }
 
     public void deleteInsurance(Long insuranceId) {
-        boolean exists = false;
-
-        if (insuranceRepository.existsById(insuranceId)) {
-            insuranceRepository.deleteById(insuranceId);
-            exists = true;}
-
-        if (!exists) {
+        if (!insuranceRepository.existsById(insuranceId)) {
             throw new EntityNotFoundException(Insurance.class);
         }
+        insuranceRepository.deleteById(insuranceId);
     }
 
     @Transactional
-    public CashWithdrawResponse withdraw(Long insuranceId, Double amount) {
+    public CashWithdrawResponse withdraw(Long insuranceId, BigDecimal amount) {
         Insurance insurance = insuranceRepository.findById(insuranceId)
             .orElseThrow(() -> new EntityNotFoundException(Insurance.class));
 

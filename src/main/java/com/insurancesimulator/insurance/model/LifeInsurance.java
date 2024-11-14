@@ -1,9 +1,10 @@
 package com.insurancesimulator.insurance.model;
 
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
-import exceptions.OnlyCashOutException;
+import com.insurancesimulator.exceptions.OnlyCashOutException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,18 +23,17 @@ public class LifeInsurance extends Insurance{
     private int policyTermInYears;
 
     @Override
-    public void setPremiumPayment(double premiumPayment) {
-        super.setPremiumPayment(150);
+    public void setPremiumPayment(BigDecimal premiumPayment) {
+        super.setPremiumPayment(BigDecimal.valueOf(150));
     }
 
     @Override
-    public CashWithdrawResponse withdraw(Double cashValue) {
-        if (cashValue != this.coverageAmount) {
+    public CashWithdrawResponse withdraw(BigDecimal cashValue) {
+        if (cashValue.compareTo(this.coverageAmount) != 0) {
             throw new OnlyCashOutException("Inaccessible operation for Life Insurance");
-        }
-        else {
+        } else {
             this.deactivate();
-            return processWithdrawal(cashValue, balance - cashValue);
+            return processWithdrawal(cashValue, balance.subtract(cashValue));
         }
     }
 }

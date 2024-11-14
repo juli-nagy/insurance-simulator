@@ -1,7 +1,7 @@
 package com.insurancesimulator.customer;
 
 import com.insurancesimulator.customer.model.Customer;
-import exceptions.EntityNotFoundException;
+import com.insurancesimulator.exceptions.EntityNotFoundException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;

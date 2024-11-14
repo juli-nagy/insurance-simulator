@@ -1,4 +1,4 @@
-package exceptions;
+package com.insurancesimulator.exceptions;
 
 public class OnlyCashOutException extends RuntimeException {
     public OnlyCashOutException(String message) {

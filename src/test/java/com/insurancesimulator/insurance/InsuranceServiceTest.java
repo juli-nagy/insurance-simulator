@@ -8,7 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.insurancesimulator.insurance.model.response.CashWithdrawResponse;
 import com.insurancesimulator.insurance.model.Insurance;
-import exceptions.EntityNotFoundException;
+import com.insurancesimulator.exceptions.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +32,10 @@ class InsuranceServiceTest {
 
     @Test
     void shouldSuccessfullyWithdrawAmountFromInsurance() {
-        // Arrange
         Long insuranceId = 1L;
-        Double amount = 50.0;
-        Double initialBalance = 100.0;
-        Double expectedNewBalance = initialBalance - amount;
+        BigDecimal amount = BigDecimal.valueOf(50);
+        BigDecimal initialBalance = BigDecimal.valueOf(100);
+        BigDecimal expectedNewBalance = initialBalance.subtract(amount);
 
         Insurance insurance = mock(Insurance.class); // Mocking the Insurance object
         when(insuranceRepository.findById(insuranceId)).thenReturn(Optional.of(insurance));
@@ -57,12 +57,11 @@ class InsuranceServiceTest {
 
     @Test
     void shouldThrowEntityNotFoundExceptionIfInsuranceDoesNotExist() {
-        // Arrange
         Long nonExistentId = 99L;
         when(insuranceRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () ->
-            insuranceService.withdraw(nonExistentId, 50.0)
+            insuranceService.withdraw(nonExistentId, BigDecimal.valueOf(50))
         );
         assertTrue(exception.getMessage().contains("Insurance"));
     }
